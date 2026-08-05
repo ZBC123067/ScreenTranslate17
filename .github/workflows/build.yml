@@ -77,6 +77,7 @@ jobs:
           test "$(lipo -archs "$inspect_dir/ScreenTranslate17.dylib" | tr -s ' ')" = "arm64e"
           test "$(lipo -archs "$inspect_dir/ScreenTranslate17Prefs" | tr -s ' ')" = "arm64e"
       - name: Upload DEB
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ScreenTranslate17-roothide-deb
