@@ -20,8 +20,16 @@ jobs:
         uses: actions/checkout@v4
       - name: Install RootHide Theos
         run: |
-          bash -c "$(curl -fsSL https://raw.githubusercontent.com/roothide/theos/master/bin/install-theos)"
-          test -f "$THEOS/makefiles/common.mk"
+          set -u
+          for attempt in 1 2 3; do
+            if bash -c "$(curl -fsSL https://raw.githubusercontent.com/roothide/theos/master/bin/install-theos)" && test -f "$THEOS/makefiles/common.mk"; then
+              exit 0
+            fi
+            echo "RootHide Theos installation attempt ${attempt}/3 failed; retrying with a clean toolchain directory."
+            rm -rf "$THEOS"
+            sleep $((attempt * 10))
+          done
+          exit 1
       - name: Static source audit
         run: python3 scripts/static_audit.py
       - name: Build package
