@@ -20,7 +20,10 @@ BUNDLE_NAME = ScreenTranslate17Prefs
 ScreenTranslate17Prefs_FILES = Preferences/STRootListController.m Sources/STCommon.m Sources/STPreferences.m Sources/STCache.m Sources/STPrivacy.m Sources/STTranslationService.m
 ScreenTranslate17Prefs_CFLAGS = -fobjc-arc -I$(THEOS_PROJECT_DIR)/Sources -Wno-deprecated-declarations
 ScreenTranslate17Prefs_FRAMEWORKS = UIKit Foundation
-ScreenTranslate17Prefs_PRIVATE_FRAMEWORKS = Preferences
+# RootHide's distributed SDK intentionally omits a link stub for the private
+# Preferences framework. This bundle is loaded by the Settings process, where
+# those Objective-C classes are already present, so leave them for runtime lookup.
+ScreenTranslate17Prefs_LDFLAGS = -Wl,-undefined,dynamic_lookup
 ScreenTranslate17Prefs_LIBRARIES = roothide
 ScreenTranslate17Prefs_ENTITLEMENTS = entitlements.plist
 ScreenTranslate17Prefs_INSTALL_PATH = /Library/PreferenceBundles
