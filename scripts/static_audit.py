@@ -61,6 +61,8 @@ def objc_strings_balanced(text: str) -> bool:
 
 all_text: dict[Path, str] = {}
 for path in ROOT.rglob("*"):
+    if ".git" in path.parts:
+        continue
     if not path.is_file() or path.name == "icon.png":
         continue
     if path.suffix in {".m", ".h", ".xm", ".md", ".yml", ".plist", ""}:
