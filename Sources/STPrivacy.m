@@ -16,7 +16,7 @@
     if (!bundleID.length) return YES;
     for (id blocked in STPreferences.shared.blockedBundleIDs) {
         if (![blocked isKindOfClass:NSString.class]) continue;
-        NSString *candidate = blocked.lowercaseString;
+        NSString *candidate = [(NSString *)blocked lowercaseString];
         if ([bundleID isEqualToString:candidate] || [bundleID hasPrefix:[candidate stringByAppendingString:@"."]]) return YES;
     }
     NSArray<NSString *> *sensitiveTerms = @[ @"bank", @"banking", @"wallet", @"payment", @"finance", @"authenticator", @"token" ];
