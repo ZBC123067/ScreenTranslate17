@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+
+# PreferenceLoader is read by the Settings process.  Restart it after an
+# install/upgrade so the new ScreenTranslate17 entry appears immediately.
+killall -9 Preferences >/dev/null 2>&1 || true
+
+exit 0

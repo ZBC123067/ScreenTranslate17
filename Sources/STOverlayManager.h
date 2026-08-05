@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)overlayManagerDidRequestToggleContinuous:(STOverlayManager *)manager;
 - (void)overlayManagerDidRequestInputTranslation:(STOverlayManager *)manager;
 - (void)overlayManagerDidRequestToggleChatMode:(STOverlayManager *)manager;
+- (void)overlayManager:(STOverlayManager *)manager didRequestConfiguredAction:(NSString *)action;
 - (void)overlayManagerDidRequestControlPanel:(STOverlayManager *)manager;
 @end
 

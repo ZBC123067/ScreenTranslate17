@@ -51,7 +51,9 @@ jobs:
             ar -x "$GITHUB_WORKSPACE/$deb"
           )
           data_tar="$(find "$inspect_dir" -maxdepth 1 -type f -name 'data.tar.*' -print -quit)"
+          control_tar="$(find "$inspect_dir" -maxdepth 1 -type f -name 'control.tar.*' -print -quit)"
           test -n "$data_tar"
+          test -n "$control_tar"
           find_entry() {
             tar -tf "$data_tar" | awk -v suffix="$1" '$0 ~ suffix { print; count++ } END { if (count != 1) exit 1 }'
           }
@@ -59,14 +61,17 @@ jobs:
           prefs_binary_entry="$(find_entry '(^|/)Library/PreferenceBundles/ScreenTranslate17Prefs\\.bundle/ScreenTranslate17Prefs$')"
           prefs_info_entry="$(find_entry '(^|/)Library/PreferenceBundles/ScreenTranslate17Prefs\\.bundle/Info\\.plist$')"
           preference_loader_entry="$(find_entry '(^|/)Library/PreferenceLoader/Preferences/ScreenTranslate17\\.plist$')"
+          postinst_entry="$(tar -tf "$control_tar" | awk '$0 ~ /(^|\\/)postinst$/ { print; count++ } END { if (count != 1) exit 1 }')"
           tar -xOf "$data_tar" "$tweak_entry" > "$inspect_dir/ScreenTranslate17.dylib"
           tar -xOf "$data_tar" "$prefs_binary_entry" > "$inspect_dir/ScreenTranslate17Prefs"
           tar -xOf "$data_tar" "$prefs_info_entry" > "$inspect_dir/Info.plist"
           tar -xOf "$data_tar" "$preference_loader_entry" > "$inspect_dir/ScreenTranslate17.plist"
+          tar -xOf "$control_tar" "$postinst_entry" > "$inspect_dir/postinst"
            test -s "$inspect_dir/ScreenTranslate17.dylib"
            test -s "$inspect_dir/ScreenTranslate17Prefs"
            plutil -lint "$inspect_dir/Info.plist"
            plutil -lint "$inspect_dir/ScreenTranslate17.plist"
+           grep -q 'killall -9 Preferences' "$inspect_dir/postinst"
            test "$(plutil -extract entry.bundle raw -o - "$inspect_dir/ScreenTranslate17.plist")" = "ScreenTranslate17Prefs"
            test "$(plutil -extract entry.detail raw -o - "$inspect_dir/ScreenTranslate17.plist")" = "STRootListController"
           test "$(lipo -archs "$inspect_dir/ScreenTranslate17.dylib" | tr -s ' ')" = "arm64e"

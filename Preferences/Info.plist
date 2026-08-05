@@ -3,13 +3,14 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleDevelopmentRegion</key><string>zh-Hans</string>
+    <key>CFBundleDisplayName</key><string>ScreenTranslate17</string>
     <key>CFBundleExecutable</key><string>ScreenTranslate17Prefs</string>
     <key>CFBundleIdentifier</key><string>com.wmm.screentranslate17.preferences</string>
     <key>CFBundleInfoDictionaryVersion</key><string>6.0</string>
     <key>CFBundleName</key><string>ScreenTranslate17Prefs</string>
     <key>CFBundlePackageType</key><string>BNDL</string>
-    <key>CFBundleShortVersionString</key><string>0.4.0</string>
-    <key>CFBundleVersion</key><string>5</string>
+    <key>CFBundleShortVersionString</key><string>0.4.1</string>
+    <key>CFBundleVersion</key><string>6</string>
     <key>MinimumOSVersion</key><string>15.0</string>
     <key>NSPrincipalClass</key><string>STRootListController</string>
 </dict>

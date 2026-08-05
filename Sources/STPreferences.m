@@ -32,6 +32,8 @@
         @"sourceLanguage": @"auto",
         @"targetLanguage": @"zh-CN",
         @"displayMode": @"overlay",
+        @"singleTapAction": @"screen",
+        @"doubleTapAction": @"toggle_translations",
         @"provider": @"none",
         @"apiEndpoint": @"",
         @"apiKey": @"",
@@ -98,6 +100,10 @@
     if ([key isEqualToString:@"displayMode"]) {
         NSString *mode = [[self trimmedString:value maximumLength:32] lowercaseString];
         return [@[ @"overlay", @"bilingual", @"below" ] containsObject:mode] ? mode : nil;
+    }
+    if ([key isEqualToString:@"singleTapAction"] || [key isEqualToString:@"doubleTapAction"]) {
+        NSString *action = [[self trimmedString:value maximumLength:32] lowercaseString];
+        return [@[ @"screen", @"ocr", @"region", @"continuous", @"chat", @"input", @"toggle_translations", @"settings", @"none" ] containsObject:action] ? action : nil;
     }
     if ([key isEqualToString:@"apiEndpoint"]) return [self trimmedString:value maximumLength:2048];
     if ([key isEqualToString:@"apiKey"]) return [self trimmedString:value maximumLength:4096];
@@ -175,6 +181,8 @@
 - (NSString *)sourceLanguage { return [self stringForKey:@"sourceLanguage"]; }
 - (NSString *)targetLanguage { return [self stringForKey:@"targetLanguage"]; }
 - (NSString *)displayMode { return [self stringForKey:@"displayMode"]; }
+- (NSString *)singleTapAction { return [self stringForKey:@"singleTapAction"]; }
+- (NSString *)doubleTapAction { return [self stringForKey:@"doubleTapAction"]; }
 - (NSString *)provider { return [self stringForKey:@"provider"]; }
 - (NSString *)apiEndpoint { return [self stringForKey:@"apiEndpoint"]; }
 - (NSString *)apiKey { return [self stringForKey:@"apiKey"]; }

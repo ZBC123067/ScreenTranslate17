@@ -16,6 +16,21 @@
     <dict><key>cell</key><string>PSSwitchCell</string><key>label</key><string>发送前遮盖敏感号码</string><key>key</key><string>redactSensitiveData</string><key>default</key><true/></dict>
     <dict>
         <key>cell</key><string>PSGroupCell</string>
+        <key>label</key><string>悬浮按钮</string>
+        <key>footerText</key><string>单击和双击可分别配置；长按始终打开完整功能菜单。</string>
+    </dict>
+    <dict>
+        <key>cell</key><string>PSLinkListCell</string><key>label</key><string>单击操作</string><key>key</key><string>singleTapAction</string><key>default</key><string>screen</string>
+        <key>validValues</key><array><string>screen</string><string>ocr</string><string>region</string><string>continuous</string><string>chat</string><string>input</string><string>toggle_translations</string><string>settings</string><string>none</string></array>
+        <key>validTitles</key><array><string>翻译当前界面</string><string>OCR 翻译当前屏幕</string><string>框选区域翻译</string><string>选择区域并开启连续字幕</string><string>切换自动聊天翻译</string><string>翻译输入内容</string><string>显示 / 隐藏译文</string><string>打开插件设置</string><string>不执行操作</string></array>
+    </dict>
+    <dict>
+        <key>cell</key><string>PSLinkListCell</string><key>label</key><string>双击操作</string><key>key</key><string>doubleTapAction</string><key>default</key><string>toggle_translations</string>
+        <key>validValues</key><array><string>screen</string><string>ocr</string><string>region</string><string>continuous</string><string>chat</string><string>input</string><string>toggle_translations</string><string>settings</string><string>none</string></array>
+        <key>validTitles</key><array><string>翻译当前界面</string><string>OCR 翻译当前屏幕</string><string>框选区域翻译</string><string>选择区域并开启连续字幕</string><string>切换自动聊天翻译</string><string>翻译输入内容</string><string>显示 / 隐藏译文</string><string>打开插件设置</string><string>不执行操作</string></array>
+    </dict>
+    <dict>
+        <key>cell</key><string>PSGroupCell</string>
         <key>label</key><string>语言与显示</string>
     </dict>
     <dict><key>cell</key><string>PSEditTextCell</string><key>label</key><string>源语言</string><key>key</key><string>sourceLanguage</string><key>default</key><string>auto</string><key>placeholder</key><string>auto</string></dict>

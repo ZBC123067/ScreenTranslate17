@@ -211,15 +211,26 @@
     }
     if (clearExisting) [self.overlay clearTranslations];
     __block NSInteger pending = usable.count;
+    __block BOOL receivedTranslation = NO;
+    __block NSError *firstTranslationError;
     void (^finishOne)(void) = ^{
         pending--;
-        if (pending == 0 && completion) completion();
+        if (pending != 0) return;
+        if (!receivedTranslation && firstTranslationError && [self contextIsCurrentForGeneration:generation pageIdentity:pageIdentity]) {
+            [self.overlay showMessage:firstTranslationError.localizedDescription ?: @"翻译失败，请检查服务配置和网络开关。"];
+        }
+        if (completion) completion();
     };
     STTranslationEligibility eligibility = [self eligibilityForGeneration:generation pageIdentity:pageIdentity];
     for (STTextItem *item in usable) {
         if (![self contextIsCurrentForGeneration:generation pageIdentity:pageIdentity]) { finishOne(); continue; }
         [[STTranslationService shared] translateText:item.text source:STPreferences.shared.sourceLanguage target:STPreferences.shared.targetLanguage bypassCache:NO eligibility:eligibility completion:^(NSString *translated, NSError *error) {
-            if ([self contextIsCurrentForGeneration:generation pageIdentity:pageIdentity] && [self itemIsStillVisible:item] && translated.length) [self.overlay showTranslation:translated forItem:item];
+            if (translated.length) {
+                receivedTranslation = YES;
+                if ([self contextIsCurrentForGeneration:generation pageIdentity:pageIdentity] && [self itemIsStillVisible:item]) [self.overlay showTranslation:translated forItem:item];
+            } else if (!firstTranslationError && error) {
+                firstTranslationError = error;
+            }
             finishOne();
         }];
     }
@@ -444,11 +455,36 @@
     }];
 }
 
+- (void)openPluginSettings {
+    NSURL *settingsURL = [NSURL URLWithString:@"prefs:root=ScreenTranslate17"];
+    if (!settingsURL) {
+        [self.overlay showMessage:@"无法构造设置页面链接。"];
+        return;
+    }
+    [UIApplication.sharedApplication openURL:settingsURL options:@{} completionHandler:^(BOOL success) {
+        if (!success) [self.overlay showMessage:@"无法打开设置。请先完全关闭“设置”后重新打开，并在列表中查找 ScreenTranslate17。"];
+    }];
+}
+
+- (void)performConfiguredAction:(NSString *)action {
+    NSString *normalized = action.lowercaseString;
+    if ([normalized isEqualToString:@"screen"]) [self translateScreenNativeFirst];
+    else if ([normalized isEqualToString:@"ocr"]) [self translateCurrentScreenUsingOCR];
+    else if ([normalized isEqualToString:@"region"]) [self translateSelectedRegion];
+    else if ([normalized isEqualToString:@"continuous"]) [self startContinuousAfterSelectingRegion];
+    else if ([normalized isEqualToString:@"chat"]) [self setChat:!self.chatActive announce:YES];
+    else if ([normalized isEqualToString:@"input"]) [self translateInput];
+    else if ([normalized isEqualToString:@"toggle_translations"]) [self.overlay toggleTranslations];
+    else if ([normalized isEqualToString:@"settings"]) [self openPluginSettings];
+    else if (![normalized isEqualToString:@"none"]) [self.overlay showMessage:@"未识别的按钮动作。"];
+}
+
 - (void)overlayManagerDidRequestScreenTranslation:(STOverlayManager *)manager { [self translateScreenNativeFirst]; }
 - (void)overlayManagerDidRequestOCRTranslation:(STOverlayManager *)manager { [self translateCurrentScreenUsingOCR]; }
 - (void)overlayManagerDidRequestRegionTranslation:(STOverlayManager *)manager { [self translateSelectedRegion]; }
 - (void)overlayManagerDidRequestToggleContinuous:(STOverlayManager *)manager { [self startContinuousAfterSelectingRegion]; }
 - (void)overlayManagerDidRequestInputTranslation:(STOverlayManager *)manager { [self translateInput]; }
 - (void)overlayManagerDidRequestToggleChatMode:(STOverlayManager *)manager { [self setChat:!self.chatActive announce:YES]; }
+- (void)overlayManager:(STOverlayManager *)manager didRequestConfiguredAction:(NSString *)action { [self performConfiguredAction:action]; }
 - (void)overlayManagerDidRequestControlPanel:(STOverlayManager *)manager { [self.overlay presentControlPanelWithContinuousActive:self.continuousActive chatActive:self.chatActive]; }
 @end

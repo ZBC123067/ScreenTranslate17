@@ -34,6 +34,3 @@ include $(THEOS_MAKE_PATH)/bundle.mk
 internal-stage::
 	mkdir -p $(THEOS_STAGING_DIR)/Library/PreferenceLoader/Preferences
 	cp Preferences/entry.plist $(THEOS_STAGING_DIR)/Library/PreferenceLoader/Preferences/ScreenTranslate17.plist
-
-after-install::
-	install.exec "killall -9 Preferences 2>/dev/null || true"

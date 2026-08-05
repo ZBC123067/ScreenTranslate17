@@ -215,9 +215,11 @@
 }
 
 - (void)singleTapped:(UITapGestureRecognizer *)gesture {
-    if (!self.busy) [self.delegate overlayManagerDidRequestScreenTranslation:self];
+    if (!self.busy) [self.delegate overlayManager:self didRequestConfiguredAction:STPreferences.shared.singleTapAction];
 }
-- (void)doubleTapped:(UITapGestureRecognizer *)gesture { [self toggleTranslations]; }
+- (void)doubleTapped:(UITapGestureRecognizer *)gesture {
+    if (!self.busy) [self.delegate overlayManager:self didRequestConfiguredAction:STPreferences.shared.doubleTapAction];
+}
 - (void)longPressed:(UILongPressGestureRecognizer *)gesture {
     if (gesture.state == UIGestureRecognizerStateBegan) [self.delegate overlayManagerDidRequestControlPanel:self];
 }
@@ -385,6 +387,7 @@
     [sheet addAction:[UIAlertAction actionWithTitle:(chatActive ? @"关闭自动聊天翻译" : @"开启自动聊天翻译") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) { [self.delegate overlayManagerDidRequestToggleChatMode:self]; }]];
     [sheet addAction:[UIAlertAction actionWithTitle:@"翻译输入内容" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) { [self.delegate overlayManagerDidRequestInputTranslation:self]; }]];
     [sheet addAction:[UIAlertAction actionWithTitle:@"显示 / 隐藏译文" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) { [self toggleTranslations]; }]];
+    [sheet addAction:[UIAlertAction actionWithTitle:@"打开插件设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) { [self.delegate overlayManager:self didRequestConfiguredAction:@"settings"]; }]];
     [sheet addAction:[UIAlertAction actionWithTitle:@"清除当前译文" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) { [self clearTranslations]; }]];
     [sheet addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
     if (sheet.popoverPresentationController) {
