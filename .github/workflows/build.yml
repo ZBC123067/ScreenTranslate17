@@ -15,6 +15,9 @@ jobs:
     env:
       THEOS: /Users/runner/theos
       THEOS_PACKAGE_SCHEME: roothide
+      # RootHide's SDK installer supports this token and otherwise makes an
+      # unauthenticated GitHub API request, which is rate-limited on shared runners.
+      GITHUB_TOKEN: ${{ github.token }}
     steps:
       - name: Check out source
         uses: actions/checkout@v4
