@@ -28,7 +28,7 @@ ScreenTranslate17Prefs_LIBRARIES = roothide
 ScreenTranslate17Prefs_ENTITLEMENTS = entitlements.plist
 ScreenTranslate17Prefs_INSTALL_PATH = /Library/PreferenceBundles
 ScreenTranslate17Prefs_RESOURCE_DIRS = Preferences/Resources
-ScreenTranslate17Prefs_INFOPLIST_FILE = Preferences/Info.plist
+ScreenTranslate17Prefs_RESOURCE_FILES = Preferences/Info.plist
 include $(THEOS_MAKE_PATH)/bundle.mk
 
 internal-stage::
