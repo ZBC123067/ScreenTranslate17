@@ -205,7 +205,7 @@
         if (usable.count >= 18) break;
     }
     if (!usable.count) {
-        if (showEmptyMessage) [self.overlay showMessage:@"当前页面没有识别到可翻译文字。"];
+        if (showEmpty) [self.overlay showMessage:@"当前页面没有识别到可翻译文字。"];
         if (completion) completion();
         return;
     }
