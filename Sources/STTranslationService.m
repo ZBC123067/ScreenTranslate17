@@ -273,7 +273,7 @@ typedef void (^STProviderCompletion)(NSString *_Nullable translatedText, NSError
     NSMutableArray<NSURLQueryItem *> *items = [NSMutableArray arrayWithArray:components.queryItems ?: @[]];
     [items addObject:[NSURLQueryItem queryItemWithName:@"api-version" value:@"3.0"]];
     [items addObject:[NSURLQueryItem queryItemWithName:@"to" value:[self microsoftLanguage:target]]];
-    if (source.length && ![source.lowercaseString isEqualToString:@"auto"]) [items addObject:[NSURLQueryItem queryItemWithName:@"from" value:[self microsoftLanguage:source]];
+    if (source.length && ![source.lowercaseString isEqualToString:@"auto"]) [items addObject:[NSURLQueryItem queryItemWithName:@"from" value:[self microsoftLanguage:source]]];
     components.queryItems = items;
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:components.URL];
     request.HTTPMethod = @"POST";
