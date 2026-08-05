@@ -1,0 +1,67 @@
+name: Build RootHide package
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-14
+    env:
+      THEOS: /Users/runner/theos
+      THEOS_PACKAGE_SCHEME: roothide
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Install RootHide Theos
+        run: |
+          bash -c "$(curl -fsSL https://raw.githubusercontent.com/roothide/theos/master/bin/install-theos)"
+          test -f "$THEOS/makefiles/common.mk"
+      - name: Static source audit
+        run: python3 scripts/static_audit.py
+      - name: Build package
+        run: make clean package FINALPACKAGE=1
+      - name: Verify package output
+        run: |
+          set -euo pipefail
+          debs=(packages/*.deb)
+          test -f "${debs[0]}"
+          test "${#debs[@]}" -eq 1
+          deb="${debs[0]}"
+          inspect_dir="$(mktemp -d)"
+          trap 'rm -rf "$inspect_dir"' EXIT
+          (
+            cd "$inspect_dir"
+            ar -x "$GITHUB_WORKSPACE/$deb"
+          )
+          data_tar="$(find "$inspect_dir" -maxdepth 1 -type f -name 'data.tar.*' -print -quit)"
+          test -n "$data_tar"
+          find_entry() {
+            tar -tf "$data_tar" | awk -v suffix="$1" '$0 ~ suffix { print; count++ } END { if (count != 1) exit 1 }'
+          }
+          tweak_entry="$(find_entry '(^|/)Library/MobileSubstrate/DynamicLibraries/ScreenTranslate17\\.dylib$')"
+          prefs_binary_entry="$(find_entry '(^|/)Library/PreferenceBundles/ScreenTranslate17Prefs\\.bundle/ScreenTranslate17Prefs$')"
+          prefs_info_entry="$(find_entry '(^|/)Library/PreferenceBundles/ScreenTranslate17Prefs\\.bundle/Info\\.plist$')"
+          preference_loader_entry="$(find_entry '(^|/)Library/PreferenceLoader/Preferences/ScreenTranslate17\\.plist$')"
+          tar -xOf "$data_tar" "$tweak_entry" > "$inspect_dir/ScreenTranslate17.dylib"
+          tar -xOf "$data_tar" "$prefs_binary_entry" > "$inspect_dir/ScreenTranslate17Prefs"
+          tar -xOf "$data_tar" "$prefs_info_entry" > "$inspect_dir/Info.plist"
+          tar -xOf "$data_tar" "$preference_loader_entry" > "$inspect_dir/ScreenTranslate17.plist"
+          test -s "$inspect_dir/ScreenTranslate17.dylib"
+          test -s "$inspect_dir/ScreenTranslate17Prefs"
+          plutil -lint "$inspect_dir/Info.plist"
+          grep -q 'bundle = ScreenTranslate17Prefs' "$inspect_dir/ScreenTranslate17.plist"
+          grep -q 'detail = STRootListController' "$inspect_dir/ScreenTranslate17.plist"
+          test "$(lipo -archs "$inspect_dir/ScreenTranslate17.dylib" | tr -s ' ')" = "arm64e"
+          test "$(lipo -archs "$inspect_dir/ScreenTranslate17Prefs" | tr -s ' ')" = "arm64e"
+      - name: Upload DEB
+        uses: actions/upload-artifact@v4
+        with:
+          name: ScreenTranslate17-roothide-deb
+          path: packages/*.deb
+          if-no-files-found: error
