@@ -143,6 +143,7 @@ require("firstTranslationError" in manager and "receivedTranslation" in manager,
 require("dpkg-deb" not in workflow, "macOS workflow must not depend on dpkg-deb")
 for marker in ["ar -x", "data.tar.*", "control.tar.*", "postinst", "PreferenceLoader", "lipo -archs", "ScreenTranslate17Prefs"]:
     require(marker in workflow, f"workflow does not validate final package marker: {marker}")
+require("(^|\\/)postinst$" in workflow and "(^|\\\\/)postinst$" not in workflow, "workflow post-install script matcher is incorrectly escaped")
 
 for path in re.findall(r"(?:Tweak\.xm|[A-Za-z0-9_./-]+\.m)", makefile):
     if path.startswith("/") or "makefiles/" in path:
