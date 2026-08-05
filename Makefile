@@ -12,7 +12,7 @@ ScreenTranslate17_FILES = Tweak.xm \
     Sources/STOverlayManager.m Sources/STRegionSelector.m Sources/STInputHelper.m Sources/STManager.m
 ScreenTranslate17_CFLAGS = -fobjc-arc -I$(THEOS_PROJECT_DIR)/Sources -Wno-deprecated-declarations
 ScreenTranslate17_FRAMEWORKS = UIKit Foundation Vision CoreGraphics QuartzCore ImageIO
-ScreenTranslate17_LIBRARIES = roothide commonCrypto
+ScreenTranslate17_LIBRARIES = roothide
 ScreenTranslate17_ENTITLEMENTS = entitlements.plist
 include $(THEOS_MAKE_PATH)/tweak.mk
 
@@ -21,7 +21,7 @@ ScreenTranslate17Prefs_FILES = Preferences/STRootListController.m Sources/STComm
 ScreenTranslate17Prefs_CFLAGS = -fobjc-arc -I$(THEOS_PROJECT_DIR)/Sources -Wno-deprecated-declarations
 ScreenTranslate17Prefs_FRAMEWORKS = UIKit Foundation
 ScreenTranslate17Prefs_PRIVATE_FRAMEWORKS = Preferences
-ScreenTranslate17Prefs_LIBRARIES = roothide commonCrypto
+ScreenTranslate17Prefs_LIBRARIES = roothide
 ScreenTranslate17Prefs_ENTITLEMENTS = entitlements.plist
 ScreenTranslate17Prefs_INSTALL_PATH = /Library/PreferenceBundles
 ScreenTranslate17Prefs_RESOURCE_DIRS = Preferences/Resources
