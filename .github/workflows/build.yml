@@ -75,7 +75,7 @@ jobs:
            test "$(plutil -extract entry.bundle raw -o - "$inspect_dir/ScreenTranslate17.plist")" = "ScreenTranslate17Prefs"
            test "$(plutil -extract entry.detail raw -o - "$inspect_dir/ScreenTranslate17.plist")" = "STRootListController"
            plutil -extract entry.isController xml1 -o "$inspect_dir/is-controller.plist" "$inspect_dir/ScreenTranslate17.plist"
-           grep -Eq '<true[[:space:]]*/>' "$inspect_dir/is-controller.plist"
+           grep -Eq '<true[[:space:]]*/>|<integer>1</integer>' "$inspect_dir/is-controller.plist"
           test "$(lipo -archs "$inspect_dir/ScreenTranslate17.dylib" | tr -s ' ')" = "arm64e"
           test "$(lipo -archs "$inspect_dir/ScreenTranslate17Prefs" | tr -s ' ')" = "arm64e"
       - name: Upload DEB
