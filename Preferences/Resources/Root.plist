@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
+<dict>
+    <key>title</key><string>ScreenTranslate17</string>
+    <key>items</key>
 <array>
     <dict>
         <key>cell</key><string>PSGroupCell</string>
@@ -63,4 +66,5 @@
     <dict><key>cell</key><string>PSButtonCell</string><key>label</key><string>清除翻译缓存</string><key>action</key><string>stClearTranslationCache</string></dict>
     <dict><key>cell</key><string>PSButtonCell</string><key>label</key><string>恢复默认设置</string><key>action</key><string>stResetAllSettings</string></dict>
 </array>
+</dict>
 </plist>
