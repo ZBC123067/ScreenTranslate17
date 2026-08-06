@@ -58,9 +58,9 @@
     <dict><key>cell</key><string>PSEditTextCell</string><key>label</key><string>API Key</string><key>key</key><string>apiKey</string><key>default</key><string></string><key>isSecure</key><true/></dict>
     <dict><key>cell</key><string>PSEditTextCell</string><key>label</key><string>模型（OpenAI 兼容服务）</string><key>key</key><string>apiModel</string><key>default</key><string>gpt-4.1-mini</string></dict>
     <dict><key>cell</key><string>PSEditTextCell</string><key>label</key><string>Microsoft 区域</string><key>key</key><string>apiRegion</string><key>default</key><string></string></dict>
-    <dict><key>cell</key><string>PSButtonCell</string><key>label</key><string>测试翻译服务</string><key>action</key><string>testService</string></dict>
+    <dict><key>cell</key><string>PSButtonCell</string><key>label</key><string>测试翻译服务</string><key>action</key><string>stTestTranslationService</string></dict>
     <dict><key>cell</key><string>PSGroupCell</string><key>label</key><string>维护</string></dict>
-    <dict><key>cell</key><string>PSButtonCell</string><key>label</key><string>清除翻译缓存</string><key>action</key><string>clearCache</string></dict>
-    <dict><key>cell</key><string>PSButtonCell</string><key>label</key><string>恢复默认设置</string><key>action</key><string>resetAll</string></dict>
+    <dict><key>cell</key><string>PSButtonCell</string><key>label</key><string>清除翻译缓存</string><key>action</key><string>stClearTranslationCache</string></dict>
+    <dict><key>cell</key><string>PSButtonCell</string><key>label</key><string>恢复默认设置</string><key>action</key><string>stResetAllSettings</string></dict>
 </array>
 </plist>

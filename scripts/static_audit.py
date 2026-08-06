@@ -107,8 +107,8 @@ require(postinst.is_file(), "package post-install script is missing")
 postinst_text = read_text(postinst) if postinst.is_file() else ""
 require("killall -9 Preferences" in postinst_text, "post-install script does not refresh Settings")
 require("Architecture: iphoneos-arm64e" in control, "control architecture is not arm64e")
-require("Version: 0.4.3" in control and "ScreenTranslate17 0.4.3" in readme, "version strings are inconsistent")
-require(info.get("CFBundleShortVersionString") == "0.4.3", "preference bundle version is inconsistent")
+require("Version: 0.4.4" in control and "ScreenTranslate17 0.4.4" in readme, "version strings are inconsistent")
+require(info.get("CFBundleShortVersionString") == "0.4.4", "preference bundle version is inconsistent")
 require(info.get("CFBundleExecutable") == "ScreenTranslate17Prefs", "preference bundle executable is incorrect")
 require(info.get("CFBundleDisplayName") == "ScreenTranslate17", "preference bundle display name is incorrect")
 require(info.get("MinimumOSVersion") == "15.0", "preference bundle minimum OS version is incorrect")
@@ -125,7 +125,8 @@ for key in [
 
 api_key_spec = next((item for item in root_specs if item.get("key") == "apiKey"), {})
 require(api_key_spec.get("isSecure") is True, "API Key preference is not secure-display")
-require(any(item.get("action") == "testService" for item in root_specs), "cache-bypassing service test action is missing")
+for action in ["stTestTranslationService", "stClearTranslationCache", "stResetAllSettings"]:
+    require(any(item.get("action") == action for item in root_specs), f"preference action is missing: {action}")
 require("bypassCache:(BOOL)bypassCache" in translation, "translation service cannot bypass cache for tests")
 require("STCurrentPageIdentity" in manager and "operationGeneration" in manager, "stale callback protection is missing")
 require("eligibilityForGeneration" in manager and "isEligibleForNetwork" in translation, "pre-send privacy recheck is missing")
@@ -157,6 +158,10 @@ require(entry_spec.get("bundle") == "ScreenTranslate17Prefs" and entry_spec.get(
 require(entry_spec.get("id") == "ScreenTranslate17", "PreferenceLoader entry has no stable Settings identifier")
 require(entry_spec.get("isController") is True, "PreferenceLoader entry is not marked as a Boolean preference-bundle controller")
 require("prefs:root=ScreenTranslate17" not in manager, "unsupported direct jump to a PreferenceLoader page remains")
+controller = read_text(ROOT / "Preferences/STRootListController.m")
+for selector in ["stTestTranslationService", "stClearTranslationCache", "stResetAllSettings"]:
+    require(selector in controller, f"missing preference action selector: {selector}")
+require("- (void)clearCache" not in controller and "- (void)resetAll" not in controller, "settings controller overrides a framework selector")
 require("replaceCurrentTextWithString" not in "\n".join(all_text.values()), "obsolete unsafe input replacement remains")
 require("CGImageRelease(cropped);\n            STDispatchMain" not in "\n".join(all_text.values()), "possible old OCR double-release pattern remains")
 

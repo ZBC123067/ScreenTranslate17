@@ -1,4 +1,9 @@
-# ScreenTranslate17 0.4.3
+# ScreenTranslate17 0.4.4
+
+## v0.4.4 设置页崩溃修复
+
+- 设置控制器不再覆盖 Preferences 框架内部的 `clearCache` 方法。此前该冲突会在打开页面时意外触发“翻译缓存已清空”，并可能导致设置进程退出。
+- 三个设置页按钮动作均改为带 `st` 前缀的专用选择器，防止再与系统或 PreferenceLoader 方法同名。
 
 ## v0.4.3 PreferenceLoader 最终修复
 
