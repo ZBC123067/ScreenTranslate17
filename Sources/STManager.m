@@ -455,15 +455,8 @@
     }];
 }
 
-- (void)openPluginSettings {
-    NSURL *settingsURL = [NSURL URLWithString:@"prefs:root=ScreenTranslate17"];
-    if (!settingsURL) {
-        [self.overlay showMessage:@"无法构造设置页面链接。"];
-        return;
-    }
-    [UIApplication.sharedApplication openURL:settingsURL options:@{} completionHandler:^(BOOL success) {
-        if (!success) [self.overlay showMessage:@"无法打开设置。请先完全关闭“设置”后重新打开，并在列表中查找 ScreenTranslate17。"];
-    }];
+- (void)showPluginSettingsInstructions {
+    [self.overlay showMessage:@"请打开系统“设置”，在插件列表中选择 ScreenTranslate17。PreferenceLoader 的第三方设置页不能通过 iOS 的系统链接直接跳转。"];
 }
 
 - (void)performConfiguredAction:(NSString *)action {
@@ -475,7 +468,7 @@
     else if ([normalized isEqualToString:@"chat"]) [self setChat:!self.chatActive announce:YES];
     else if ([normalized isEqualToString:@"input"]) [self translateInput];
     else if ([normalized isEqualToString:@"toggle_translations"]) [self.overlay toggleTranslations];
-    else if ([normalized isEqualToString:@"settings"]) [self openPluginSettings];
+    else if ([normalized isEqualToString:@"settings"]) [self showPluginSettingsInstructions];
     else if (![normalized isEqualToString:@"none"]) [self.overlay showMessage:@"未识别的按钮动作。"];
 }
 

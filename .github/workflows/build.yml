@@ -74,6 +74,7 @@ jobs:
            grep -q 'killall -9 Preferences' "$inspect_dir/postinst"
            test "$(plutil -extract entry.bundle raw -o - "$inspect_dir/ScreenTranslate17.plist")" = "ScreenTranslate17Prefs"
            test "$(plutil -extract entry.detail raw -o - "$inspect_dir/ScreenTranslate17.plist")" = "STRootListController"
+           grep -q 'isController = 1' "$inspect_dir/ScreenTranslate17.plist"
           test "$(lipo -archs "$inspect_dir/ScreenTranslate17.dylib" | tr -s ' ')" = "arm64e"
           test "$(lipo -archs "$inspect_dir/ScreenTranslate17Prefs" | tr -s ' ')" = "arm64e"
       - name: Upload DEB

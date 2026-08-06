@@ -4,6 +4,7 @@
         cell = PSLinkCell;
         detail = STRootListController;
         id = ScreenTranslate17;
+        isController = 1;
         icon = "/Library/PreferenceBundles/ScreenTranslate17Prefs.bundle/icon.png";
         label = "ScreenTranslate17";
     };

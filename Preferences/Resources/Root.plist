@@ -22,12 +22,12 @@
     <dict>
         <key>cell</key><string>PSLinkListCell</string><key>label</key><string>单击操作</string><key>key</key><string>singleTapAction</string><key>default</key><string>screen</string>
         <key>validValues</key><array><string>screen</string><string>ocr</string><string>region</string><string>continuous</string><string>chat</string><string>input</string><string>toggle_translations</string><string>settings</string><string>none</string></array>
-        <key>validTitles</key><array><string>翻译当前界面</string><string>OCR 翻译当前屏幕</string><string>框选区域翻译</string><string>选择区域并开启连续字幕</string><string>切换自动聊天翻译</string><string>翻译输入内容</string><string>显示 / 隐藏译文</string><string>打开插件设置</string><string>不执行操作</string></array>
+        <key>validTitles</key><array><string>翻译当前界面</string><string>OCR 翻译当前屏幕</string><string>框选区域翻译</string><string>选择区域并开启连续字幕</string><string>切换自动聊天翻译</string><string>翻译输入内容</string><string>显示 / 隐藏译文</string><string>提示设置位置</string><string>不执行操作</string></array>
     </dict>
     <dict>
         <key>cell</key><string>PSLinkListCell</string><key>label</key><string>双击操作</string><key>key</key><string>doubleTapAction</string><key>default</key><string>toggle_translations</string>
         <key>validValues</key><array><string>screen</string><string>ocr</string><string>region</string><string>continuous</string><string>chat</string><string>input</string><string>toggle_translations</string><string>settings</string><string>none</string></array>
-        <key>validTitles</key><array><string>翻译当前界面</string><string>OCR 翻译当前屏幕</string><string>框选区域翻译</string><string>选择区域并开启连续字幕</string><string>切换自动聊天翻译</string><string>翻译输入内容</string><string>显示 / 隐藏译文</string><string>打开插件设置</string><string>不执行操作</string></array>
+        <key>validTitles</key><array><string>翻译当前界面</string><string>OCR 翻译当前屏幕</string><string>框选区域翻译</string><string>选择区域并开启连续字幕</string><string>切换自动聊天翻译</string><string>翻译输入内容</string><string>显示 / 隐藏译文</string><string>提示设置位置</string><string>不执行操作</string></array>
     </dict>
     <dict>
         <key>cell</key><string>PSGroupCell</string>
