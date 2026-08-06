@@ -1,0 +1,36 @@
+#import "STInputHelper.h"
+#import "STCommon.h"
+#import "STPrivacy.h"
+
+@implementation STInputHelper
++ (UIView<UITextInput> *)findInputInView:(UIView *)view {
+    if ([view conformsToProtocol:@protocol(UITextInput)] && view.isFirstResponder && ![STPrivacy isSensitiveInputView:view]) return (UIView<UITextInput> *)view;
+    for (UIView *subview in view.subviews) {
+        UIView<UITextInput> *found = [self findInputInView:subview];
+        if (found) return found;
+    }
+    return nil;
+}
++ (UIView<UITextInput> *)currentTextInput {
+    UIWindow *window = STActiveAppWindow();
+    return window ? [self findInputInView:window] : nil;
+}
++ (NSString *)currentText {
+    UIView<UITextInput> *input = [self currentTextInput];
+    if ([input isKindOfClass:UITextView.class]) return ((UITextView *)input).text;
+    if ([input isKindOfClass:UITextField.class]) return ((UITextField *)input).text;
+    UITextRange *range = [input textRangeFromPosition:input.beginningOfDocument toPosition:input.endOfDocument];
+    return range ? [input textInRange:range] : nil;
+}
++ (BOOL)replaceCurrentTextWithString:(NSString *)text {
+    if (!text.length) return NO;
+    UIView<UITextInput> *input = [self currentTextInput];
+    if (!input) return NO;
+    UITextRange *all = [input textRangeFromPosition:input.beginningOfDocument toPosition:input.endOfDocument];
+    if (!all) return NO;
+    [input replaceRange:all withText:text];
+    if ([input isKindOfClass:UITextView.class]) [[NSNotificationCenter defaultCenter] postNotificationName:UITextViewTextDidChangeNotification object:input];
+    else if ([input isKindOfClass:UITextField.class]) [(UIControl *)input sendActionsForControlEvents:UIControlEventEditingChanged];
+    return YES;
+}
+@end

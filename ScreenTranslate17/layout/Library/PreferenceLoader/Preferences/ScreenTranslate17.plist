@@ -1,0 +1,9 @@
+{
+    entry = {
+        bundle = ScreenTranslate17Prefs;
+        cell = PSLinkCell;
+        detail = STRootListController;
+        icon = "/Library/PreferenceBundles/ScreenTranslate17Prefs.bundle/icon.png";
+        label = "ScreenTranslate17";
+    };
+}
