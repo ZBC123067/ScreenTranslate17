@@ -108,8 +108,8 @@ require(postinst.is_file(), "package post-install script is missing")
 postinst_text = read_text(postinst) if postinst.is_file() else ""
 require("killall -9 Preferences" in postinst_text, "post-install script does not refresh Settings")
 require("Architecture: iphoneos-arm64e" in control, "control architecture is not arm64e")
-require("Version: 0.4.6" in control and "ScreenTranslate17 0.4.6" in readme, "version strings are inconsistent")
-require(info.get("CFBundleShortVersionString") == "0.4.6", "preference bundle version is inconsistent")
+require("Version: 0.4.7" in control and "ScreenTranslate17 0.4.7" in readme, "version strings are inconsistent")
+require(info.get("CFBundleShortVersionString") == "0.4.7", "preference bundle version is inconsistent")
 require(isinstance(root_plist, dict) and root_plist.get("title") == "ScreenTranslate17", "Root.plist must be a preference-pane dictionary with the expected title")
 require(isinstance(root_specs, list) and len(root_specs) == 26, "Root.plist must expose exactly 26 preference specifiers through its items array")
 require(info.get("CFBundleExecutable") == "ScreenTranslate17Prefs", "preference bundle executable is incorrect")
@@ -128,6 +128,13 @@ for key in [
 
 api_key_spec = next((item for item in root_specs if item.get("key") == "apiKey"), {})
 require(api_key_spec.get("isSecure") is True, "API Key preference is not secure-display")
+keyed_specs = [item for item in root_specs if isinstance(item, dict) and isinstance(item.get("key"), str)]
+require(len(keyed_specs) == 18, "preference pane must expose the expected 18 keyed settings")
+for item in keyed_specs:
+    require(item.get("get") == "readPreferenceValue:" and item.get("set") == "setPreferenceValue:specifier:", f"preference {item.get('key')} is not bound to the RootHide preference store")
+for item in root_specs:
+    if isinstance(item, dict) and item.get("cell") == "PSLinkListCell":
+        require(item.get("detail") == "PSListItemsController", f"list preference {item.get('key')} does not use PSListItemsController")
 for action in ["stTestTranslationService", "stClearTranslationCache", "stResetAllSettings"]:
     require(any(item.get("action") == action for item in root_specs), f"preference action is missing: {action}")
 require("bypassCache:(BOOL)bypassCache" in translation, "translation service cannot bypass cache for tests")

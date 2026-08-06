@@ -85,6 +85,9 @@ jobs:
            test "$(plutil -extract title raw -o - "$inspect_dir/Root.plist")" = "ScreenTranslate17"
            plutil -extract items xml1 -o "$inspect_dir/root-items.plist" "$inspect_dir/Root.plist"
            test "$(grep -c '<dict>' "$inspect_dir/root-items.plist")" -eq 26
+           test "$(grep -c '<key>get</key>' "$inspect_dir/root-items.plist")" -eq 18
+           test "$(grep -c '<key>set</key>' "$inspect_dir/root-items.plist")" -eq 18
+           test "$(grep -c '<string>PSListItemsController</string>' "$inspect_dir/root-items.plist")" -eq 5
           test "$(lipo -archs "$inspect_dir/ScreenTranslate17.dylib" | tr -s ' ')" = "arm64e"
           test "$(lipo -archs "$inspect_dir/ScreenTranslate17Prefs" | tr -s ' ')" = "arm64e"
       - name: Upload DEB

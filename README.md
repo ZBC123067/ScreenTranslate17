@@ -1,4 +1,9 @@
-# ScreenTranslate17 0.4.6
+# ScreenTranslate17 0.4.7
+
+## v0.4.7 设置项读写与列表选择修复
+
+- 每个有 `key` 的设置项明确绑定到本插件的读写方法，确保开关、文本和 API Key 写入 RootHide 偏好文件并立刻通知已注入的 App。
+- 所有下拉列表项明确使用 `PSListItemsController`，使服务类型、单击/双击操作、显示方式和缓存保留时间可正常打开并保存选择。
 
 ## v0.4.6 设置页空白修复
 
