@@ -9,7 +9,7 @@
         <key>detail</key><string>STRootListController</string>
         <key>id</key><string>ScreenTranslate17</string>
         <key>isController</key><true/>
-        <key>icon</key><string>/Library/PreferenceBundles/ScreenTranslate17Prefs.bundle/icon.png</string>
+        <key>icon</key><string>/Library/PreferenceLoader/Preferences/ScreenTranslate17.png</string>
         <key>label</key><string>ScreenTranslate17</string>
     </dict>
 </dict>

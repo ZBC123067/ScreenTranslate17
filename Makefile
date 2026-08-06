@@ -34,3 +34,4 @@ include $(THEOS_MAKE_PATH)/bundle.mk
 internal-stage::
 	mkdir -p $(THEOS_STAGING_DIR)/Library/PreferenceLoader/Preferences
 	cp Preferences/entry.plist $(THEOS_STAGING_DIR)/Library/PreferenceLoader/Preferences/ScreenTranslate17.plist
+	cp Preferences/Resources/icon.png $(THEOS_STAGING_DIR)/Library/PreferenceLoader/Preferences/ScreenTranslate17.png

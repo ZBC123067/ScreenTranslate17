@@ -14,11 +14,15 @@
     return _specifiers;
 }
 - (id)readPreferenceValue:(PSSpecifier *)specifier {
+    NSString *key = specifier.properties[@"key"];
+    if (![key isKindOfClass:NSString.class] || !key.length) return specifier.properties[@"default"];
     NSDictionary *stored = [STPreferences mutableStoredValues];
-    return stored[specifier.properties[@"key"]] ?: specifier.properties[@"default"];
+    return stored[key] ?: specifier.properties[@"default"];
 }
 - (void)setPreferenceValue:(id)value specifier:(PSSpecifier *)specifier {
-    [STPreferences writeValue:value forKey:specifier.properties[@"key"]];
+    NSString *key = specifier.properties[@"key"];
+    if (![key isKindOfClass:NSString.class] || !key.length) return;
+    [STPreferences writeValue:value forKey:key];
 }
 - (void)stClearTranslationCache {
     [[STCache shared] clear];
