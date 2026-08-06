@@ -1,6 +1,6 @@
 Package: com.wmm.screentranslate17
 Name: ScreenTranslate17
-Version: 0.4.2
+Version: 0.4.3
 Architecture: iphoneos-arm64e
 Description: Per-app screen translation for iOS 15-17 RootHide Bootstrap.
 Maintainer: WMM

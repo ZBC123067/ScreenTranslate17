@@ -1,11 +1,11 @@
-# ScreenTranslate17 0.4.2
+# ScreenTranslate17 0.4.3
 
-## v0.4.2 PreferenceLoader 修复
+## v0.4.3 PreferenceLoader 最终修复
 
-- PreferenceLoader 的设置页入口补上必需的 `isController = 1` 标记。此前条目虽已随包安装，但不会被当作 Preference Bundle 控制器加载，因此没有显示在设置列表。
+- PreferenceLoader 入口改为标准 XML plist，且 `isController` 使用真正的布尔值 `true`。旧的 NeXTSTEP 文本格式会把 `1` 解析为字符串，不能保证被 RootHide 上的 PreferenceLoader 识别为控制器。
 - 移除不可用于第三方 PreferenceLoader 页的 `prefs:root=ScreenTranslate17` 跳转。悬浮菜单和按钮动作中的“设置”现在会说明正确位置，不再提示“无法打开设置”。
 
-## v0.4.1 实机测试修复
+## v0.4.2 与更早版本修复
 
 - 修复安装或升级后“设置”未刷新、ScreenTranslate17 入口不显示的问题：包内现在包含安装后刷新脚本，并补全 PreferenceLoader 入口标识。
 - 翻译服务未配置、联网翻译关闭或请求失败时，悬浮按钮会显示明确原因，不再只显示“...”。默认仍关闭联网翻译，保护隐私。

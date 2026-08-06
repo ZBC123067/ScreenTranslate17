@@ -1,11 +1,16 @@
-{
-    entry = {
-        bundle = ScreenTranslate17Prefs;
-        cell = PSLinkCell;
-        detail = STRootListController;
-        id = ScreenTranslate17;
-        isController = 1;
-        icon = "/Library/PreferenceBundles/ScreenTranslate17Prefs.bundle/icon.png";
-        label = "ScreenTranslate17";
-    };
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>entry</key>
+    <dict>
+        <key>bundle</key><string>ScreenTranslate17Prefs</string>
+        <key>cell</key><string>PSLinkCell</string>
+        <key>detail</key><string>STRootListController</string>
+        <key>id</key><string>ScreenTranslate17</string>
+        <key>isController</key><true/>
+        <key>icon</key><string>/Library/PreferenceBundles/ScreenTranslate17Prefs.bundle/icon.png</string>
+        <key>label</key><string>ScreenTranslate17</string>
+    </dict>
+</dict>
+</plist>
